@@ -11,7 +11,8 @@ Routes:
   replacing underscores (_) with spaces.
 """
 
-from flask import Flask, escape
+from flask import Flask
+from markupsafe import escape  # Import escape from markupsafe instead
 
 app = Flask(__name__)
 
