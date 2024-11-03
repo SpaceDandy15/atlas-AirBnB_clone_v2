@@ -1,7 +1,10 @@
+#!/usr/bin/python3
+"""State Module for HBNB project"""
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from models.__init__ import storage_type
 from sqlalchemy.orm import relationship
+
 
 class State(BaseModel, Base):
     """ State class """
