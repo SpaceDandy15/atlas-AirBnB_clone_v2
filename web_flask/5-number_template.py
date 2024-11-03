@@ -1,19 +1,6 @@
 #!/usr/bin/python3
 """
 This module starts a Flask web application that responds to HTTP requests.
-
-The web application listens on all interfaces (0.0.0.0) at port 5000 and includes the following routes:
-
-Routes:
-- /: Displays "Hello HBNB!".
-- /hbnb: Displays "HBNB".
-- /c/<text>: Displays "C " followed by the value of the text variable,
-  replacing underscores (_) with spaces.
-- /python/<text>: Displays "Python " followed by the value of the text variable,
-  replacing underscores (_) with spaces. Defaults to "is cool" if no <text> is provided.
-- /number/<n>: Displays "<n> is a number" only if <n> is an integer.
-- /number_template/<n>: Displays a HTML page with "Number: <n>" in an H1 tag
-  only if <n> is an integer.
 """
 
 from flask import Flask, render_template
