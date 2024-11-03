@@ -2,13 +2,6 @@
 """Defines the DBStorage engine."""
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-from models.base_model import Base
-from models.user import User
-from models.place import Place
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.review import Review
 import os
 
 mysql_user = os.getenv('HBNB_MYSQL_USER')
@@ -23,15 +16,6 @@ class DBStorage:
     __engine = None
     __session = None
 
-    classes = {
-        'User': User,
-        'Place': Place,
-        'State': State,
-        'City': City,
-        'Amenity': Amenity,
-        'Review': Review
-    }
-
     def __init__(self):
         """Initialize a new DBStorage instance."""
         self.__engine = create_engine(
@@ -42,20 +26,37 @@ class DBStorage:
             pool_pre_ping=True
         )
         if os.getenv('HBNB_ENV') == 'test':
+            from models.base_model import Base
             Base.metadata.drop_all(self.__engine)
-        
+
         session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         self.__session = scoped_session(session_factory)
 
     def all(self, cls=None):
         """Query all objects based on class or all classes."""
+        from models.state import State
+        from models.city import City
+        from models.user import User
+        from models.place import Place
+        from models.amenity import Amenity
+        from models.review import Review
+
+        classes = {
+            'User': User,
+            'Place': Place,
+            'State': State,
+            'City': City,
+            'Amenity': Amenity,
+            'Review': Review
+        }
+
         result_dict = {}
-        if cls and cls in self.classes.values():
+        if cls and cls in classes.values():
             query = self.__session.query(cls).all()
             for item in query:
                 result_dict['{}.{}'.format(cls.__name__, item.id)] = item
         else:
-            for model_class in self.classes.values():
+            for model_class in classes.values():
                 query = self.__session.query(model_class).all()
                 for item in query:
                     result_dict['{}.{}'.format(item.__class__.__name__, item.id)] = item
@@ -76,6 +77,7 @@ class DBStorage:
 
     def reload(self):
         """Reload data from the database."""
+        from models.base_model import Base
         Base.metadata.create_all(self.__engine)
         self.close()  # Ensure the previous session is closed
         session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
