@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""This module defines a class to manage file storage for the HBNB clone."""
+"""Class to manage file storage for the HBNB clone."""
 import json
 import os
 from models.base_model import BaseModel
@@ -12,12 +12,12 @@ from models.review import Review
 
 
 class FileStorage:
-    """This class manages storage of HBNB models in JSON format."""
+    """Manages storage of HBNB models in JSON format."""
     __file_path = 'file.json'
     __objects = {}
 
     def all(self, cls=None):
-        """Returns a dictionary of models (of a class) currently in storage."""
+        """Returns a dictionary of models in storage."""
         if cls is not None and not issubclass(cls, (BaseModel, User, Place,
                                                     State, City, Amenity,
                                                     Review)):
@@ -29,7 +29,7 @@ class FileStorage:
         return self.__objects
 
     def new(self, obj):
-        """Adds a new object to the storage dictionary."""
+        """Adds a new object to storage."""
         if obj is None:
             raise ValueError("Cannot add NoneType object")
         key = f"{type(obj).__name__}.{obj.id}"
@@ -76,5 +76,5 @@ class FileStorage:
                 self.save()
 
     def close(self):
-        """Session Closer"""
+        """Closes the session and reloads storage."""
         self.reload()
