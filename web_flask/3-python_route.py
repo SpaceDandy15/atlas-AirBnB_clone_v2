@@ -2,7 +2,7 @@
 """
 This module starts a Flask web application that responds to HTTP requests.
 
-The web application listens on all interfaces (0.0.0.0) at port 5000 and 
+The web application listens on all interfaces (0.0.0.0) at port 5000 and
 includes the following routes:
 
 Routes:
@@ -10,8 +10,8 @@ Routes:
 - /hbnb: Displays "HBNB".
 - /c/<text>: Displays "C " followed by the value of the text variable,
   replacing underscores (_) with spaces.
-- /python/<text>: Displays "Python " followed by the value of the text 
-  variable, replacing underscores (_) with spaces. If no <text> is provided, 
+- /python/<text>: Displays "Python " followed by the value of the text
+  variable, replacing underscores (_) with spaces. If no <text> is provided,
   defaults to "is cool".
 """
 
