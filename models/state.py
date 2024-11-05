@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship
 class State(BaseModel, Base):
     """State class with attributes for HBNB project."""
     __tablename__ = 'states'
- 
+
     if storage_type == 'db':
         name = Column(String(128), nullable=False)
         cities = relationship('City', back_populates='state',

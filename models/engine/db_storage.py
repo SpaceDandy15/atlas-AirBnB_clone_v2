@@ -19,7 +19,7 @@ mysql_db = os.getenv('HBNB_MYSQL_DB')
 
 
 class DBStorage:
-    """Represents the database storage engine."""
+    """Database storage engine."""
 
     __engine = None
     __session = None
@@ -31,7 +31,7 @@ class DBStorage:
             }
 
     def __init__(self):
-        """Initialize a new DBStorage instance."""
+        """Initialize DBStorage instance."""
         self.__engine = create_engine(
             'mysql+mysqldb://{}:{}@{}/{}'.format(
                 mysql_user, mysql_password,
@@ -46,7 +46,7 @@ class DBStorage:
         self.__session = scoped_session(session_factory)
 
     def all(self, cls=None):
-        """Query all objects or objects of a specific class."""
+        """Query all objects or specific class objects."""
         result_dict = {}
         if cls and cls in DBStorage.classes.values():
             query = self.__session.query(cls).all()
@@ -79,8 +79,9 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         if self.__session:
             self.close()
-        session_factory = sessionmaker(bind=self.__engine,
-                                       expire_on_commit=False)
+        session_factory = sessionmaker(
+            bind=self.__engine, expire_on_commit=False
+        )
         self.__session = scoped_session(session_factory)
 
     def delete(self, obj=None):
