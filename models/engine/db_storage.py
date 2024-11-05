@@ -10,7 +10,9 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+from models.user import User
 import os
+# Add other model imports as needed
 
 
 mysql_user = os.getenv('HBNB_MYSQL_USER')
@@ -70,7 +72,6 @@ class DBStorage:
     def save(self):
         """Commit all changes to the database."""
         try:
-            # print("DEBUG: DB STORAGE COMMITTING")  # DEBUG
             self.__session.commit()
             self.close()
         except Exception as e:
@@ -85,7 +86,6 @@ class DBStorage:
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
         self.__session = scoped_session(session_factory)
-        # print("DEBUG: Database session reloaded")  # DEBUG
 
     def delete(self, obj=None):
         if obj:
