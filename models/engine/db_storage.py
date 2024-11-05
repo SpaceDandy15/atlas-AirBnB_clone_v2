@@ -57,7 +57,8 @@ class DBStorage:
             for model_class in DBStorage.classes.values():
                 query.extend(self.__session.query(model_class).all())
             for item in query:
-                result_dict['{}.{}'.format(item.__class__.__name__, item.id)] = item
+                result_dict['{}.{}'.format(item.__class__.__name__, item.id)
+                            ] = item
         self.__session.expire_all()
         return result_dict
 
