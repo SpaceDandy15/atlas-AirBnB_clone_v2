@@ -2,7 +2,8 @@
 """
 This module starts a Flask web application that responds to HTTP requests.
 
-The web application listens on all interfaces (0.0.0.0) at port 5000 and includes the following routes:
+The web application listens on all interfaces (0.0.0.0) at port 5000 and 
+includes the following routes:
 
 Routes:
 - /: Displays "Hello HBNB!".
@@ -16,6 +17,7 @@ from markupsafe import escape  # Import escape from markupsafe instead
 
 app = Flask(__name__)
 
+
 @app.route('/', strict_slashes=False)
 def hello_hbnb():
     """
@@ -26,6 +28,7 @@ def hello_hbnb():
     """
     return "Hello HBNB!"
 
+
 @app.route('/hbnb', strict_slashes=False)
 def hbnb():
     """
@@ -35,6 +38,7 @@ def hbnb():
     Response: "HBNB"
     """
     return "HBNB"
+
 
 @app.route('/c/<text>', strict_slashes=False)
 def c_route(text):
@@ -48,6 +52,7 @@ def c_route(text):
     Response: "C <text>", where underscores in <text> are replaced by spaces.
     """
     return "C {}".format(escape(text.replace('_', ' ')))
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
