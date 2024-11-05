@@ -2,7 +2,7 @@
 """
 This module starts a Flask web application that responds to HTTP requests.
 
-The web application listens on all interfaces (0.0.0.0) at port 5000 and 
+The web application listens on all interfaces (0.0.0.0) at port 5000 and
 includes the following routes:
 
 Routes:
@@ -48,7 +48,7 @@ def c_route(text):
     Route: /c/<text>
     Parameter:
     - text (str): The text to display after "C ".
-    
+
     Response: "C <text>", where underscores in <text> are replaced by spaces.
     """
     return "C {}".format(escape(text.replace('_', ' ')))
