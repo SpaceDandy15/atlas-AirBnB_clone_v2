@@ -1,85 +1,43 @@
 #!/usr/bin/python3
-'''
-task 5 - python is cool
+"""
+This module starts a Flask web application that responds to HTTP requests.
+"""
 
-- application should be listening to 0.0.0.0:5000
-- use the option 'strict_slashes=False' within the route definitions
-- route '/' should display 'Hello HBNB!'
-- route '/hbnb' should display 'HBNB'
-- route '/c/<text>' should display 'C' followed by the value of <text>
-    (replace underscores with spaces)
-- route '/python/<text>' should display 'Python' followed by the value of
-    <text> with default value "is cool" (replace underscores with spaces)
-- route '/number/<n>' should display '<n> is a number' only if <n> is an
-    integer
-- route '/number_template/<n>' should display an html page only if <n> is an
-    integer - H1 tag : "Number: <n>" inside of body
-'''
-
-from flask import Flask, abort, render_template
+from flask import Flask, render_template
 from markupsafe import escape
 
 app = Flask(__name__)
 
-
-@app.route("/", strict_slashes=False)
-def hello():
-    '''
-    serve text, upon request, to route /
-    '''
+@app.route('/', strict_slashes=False)
+def hello_hbnb():
+    """Return a greeting message."""
     return "Hello HBNB!"
 
-
-@app.route("/hbnb", strict_slashes=False)
+@app.route('/hbnb', strict_slashes=False)
 def hbnb():
-    '''
-    serve text, upon request, to route /hbnb
-    '''
+    """Return the HBNB message."""
     return "HBNB"
 
+@app.route('/c/<text>', strict_slashes=False)
+def c_route(text):
+    """Return 'C ' followed by the value of the text variable."""
+    return "C {}".format(escape(text.replace('_', ' ')))
 
-@app.route("/c/<text>", strict_slashes=False)
-def c_text(text):
-    '''
-    process the given url and serve the resulting text on route /c/<text>
-    '''
-    text = text.replace("_", " ")
-    return f"C {escape(text)}"
+@app.route('/python/', defaults={'text': 'is cool'}, strict_slashes=False)
+@app.route('/python/<text>', strict_slashes=False)
+def python_route(text):
+    """Return 'Python ' followed by the value of the text variable."""
+    return "Python {}".format(escape(text.replace('_', ' ')))
 
+@app.route('/number/<int:n>', strict_slashes=False)
+def number_route(n):
+    """Return '<n> is a number' only if <n> is an integer."""
+    return "{} is a number".format(n)
 
-@app.route("/python", strict_slashes=False)
-@app.route("/python/<text>", strict_slashes=False)
-def python_text(text="is_cool"):
-    '''
-    process the given url and serve the resulting text on route /python/<text>
-    '''
-    text = text.replace("_", " ")
-    return f"Python {escape(text)}"
-
-
-@app.route("/number/<n>", strict_slashes=False)
-def number(n):
-    '''
-    process the given url and output the result on route /number/<n>
-    '''
-    if n.isdecimal():
-        n = int(n)
-        return f"{n} is a number"
-    else:
-        abort(404)
-
-
-@app.route("/number_template/<n>", strict_slashes=False)
+@app.route('/number_template/<int:n>', strict_slashes=False)
 def number_template(n):
-    '''
-    return a dynamic template webpage based on the url
-    '''
-    if n.isdecimal():
-        n = int(n)
-        return render_template("5-number.html", number=n)
-    else:
-        abort(404)
+    """Render an HTML page displaying 'Number: <n>' only if <n> is an integer."""
+    return render_template('5-number.html', number=n)
 
-
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
