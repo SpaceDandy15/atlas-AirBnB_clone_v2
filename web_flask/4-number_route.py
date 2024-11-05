@@ -10,8 +10,9 @@ Routes:
 - /hbnb: Displays "HBNB".
 - /c/<text>: Displays "C " followed by the value of the text variable,
   replacing underscores (_) with spaces.
-- /python/<text>: Displays "Python " followed by the value of the text variable,
-  replacing underscores (_) with spaces. If no <text> is provided, defaults to "is cool".
+- /python/<text>: Displays "Python " followed by the value of the text
+  variable, replacing underscores (_) with spaces. If no <text> is provided,
+  defaults to "is cool".
 - /number/<n>: Displays "<n> is a number" only if <n> is an integer.
 """
 
