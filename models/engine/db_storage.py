@@ -3,6 +3,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
+from models.base_model import BaseModel
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -10,6 +11,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 import os
+
 
 mysql_user = os.getenv('HBNB_MYSQL_USER')
 mysql_password = os.getenv('HBNB_MYSQL_PWD')
@@ -24,10 +26,10 @@ class DBStorage:
     __session = None
 
     classes = {
-        'User': User, 'Place': Place,
-        'State': State, 'City': City, 'Amenity': Amenity,
-        'Review': Review
-    }
+            'User': User, 'Place': Place,
+            'State': State, 'City': City, 'Amenity': Amenity,
+            'Review': Review
+            }
 
     def __init__(self):
         """Initialize a new DBStorage instance."""
@@ -68,7 +70,9 @@ class DBStorage:
     def save(self):
         """Commit all changes to the database."""
         try:
+            # print("DEBUG: DB STORAGE COMMITTING")  # DEBUG
             self.__session.commit()
+            self.close()
         except Exception as e:
             print("Error during commit: {}".format(e))
             self.__session.rollback()
@@ -76,16 +80,18 @@ class DBStorage:
     def reload(self):
         """Reload data from the database."""
         Base.metadata.create_all(self.__engine)
+        if self.__session:
+            self.close()
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
         self.__session = scoped_session(session_factory)
+        # print("DEBUG: Database session reloaded")  # DEBUG
 
     def delete(self, obj=None):
-        """Delete an object from the session."""
         if obj:
             self.__session.delete(obj)
             self.save()
 
     def close(self):
-        """Close the session."""
-        self.__session.remove()  # Call remove() on the session
+        """Session Closer"""
+        self.__session.remove()
