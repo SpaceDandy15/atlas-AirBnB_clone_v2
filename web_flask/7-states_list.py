@@ -34,4 +34,15 @@ def states_list():
     sorted_states = sorted(states, key=lambda state: state.name)
     return render_template('7-states_list.html', states=sorted_states)
 
-@app.teard
+@app.teardown_appcontext
+def teardown_db(exception):
+    """
+    Closes the SQLAlchemy session after each request.
+    
+    Args:
+        exception (Exception): Any exception that occurred during request handling.
+    """
+    storage.close()
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
